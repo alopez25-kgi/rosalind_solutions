@@ -96,7 +96,10 @@ if __name__ == "__main__":
     print(" ".join(str(loc) for loc in find_locations(s, t)))
 
 #PRTM
+def calculate_protein_mass(protein_string):
+    return sum(MASS_TABLE[aa] for aa in protein_string.strip())
 
+total_mass = calculate_protein_mass(sample)
 #REVP
 
 #TRAN

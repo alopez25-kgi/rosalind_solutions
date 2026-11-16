@@ -1,2 +1,0 @@
-# rosalind_solutions
-

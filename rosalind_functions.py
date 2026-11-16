@@ -51,7 +51,34 @@ def highest_gc_file(filename):
 def point_mut(seq1, seq2):
     return sum(a !=b for a, b in zip(seq1, seq2))
 #PROT
+from itertools import product
 
+# Codon table in the same order as your table, using U
+CODON_TABLE = {
+    a + b + c: aa
+    for (a, b, c), aa in zip(
+        product("UCAG", repeat=3),
+        "FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
+    )
+}
+
+def translate(rna):
+    """Translate an RNA string into a protein string, stopping at a Stop codon."""
+    protein = []
+    for i in range(0, len(rna) - 2, 3):
+        aa = CODON_TABLE[rna[i:i + 3]]
+        if aa == "*":
+            break
+        protein.append(aa)
+    return "".join(protein)
+
+def rna_to_protein(filename):
+    """Read an RNA string from a file and return its protein string."""
+    with open(filename) as f:
+        rna = "".join(line.strip() for line in f).upper()
+    return translate(rna)
+
+print(rna_to_protein("rna"))
 #SUBS
 
 #PRTM

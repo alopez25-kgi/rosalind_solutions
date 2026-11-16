@@ -80,6 +80,20 @@ def rna_to_protein(filename):
 
 print(rna_to_protein("rna"))
 #SUBS
+def find_locations(s, t):
+    """Return the 1-based starting position of every occurrence of t in s."""
+    n = len(t)
+    return [i + 1 for i in range(len(s) - n + 1) if s[i:i + n] == t]
+
+def read_two_strings(filename):
+    """Read the first two non-blank lines of a file."""
+    with open(filename) as f:
+        lines = [line.strip() for line in f if line.strip()]
+    return lines[0], lines[1]
+
+if __name__ == "__main__":
+    s, t = read_two_strings("subs") 
+    print(" ".join(str(loc) for loc in find_locations(s, t)))
 
 #PRTM
 

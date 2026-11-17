@@ -129,4 +129,36 @@ if __name__ == "__main__":
         return(pos, length)
 
 #TRAN
+def read_two_strings(filename):
+    """Read the sequences from a FASTA file, joining wrapped lines."""
+    seqs = []
+    with open(filename) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            if line.startswith(">"):
+                seqs.append("")
+            else:
+                seqs[-1] += line.upper()
+    return seqs[0], seqs[1]
 
+def transition_transversion_ratio(s1, s2):
+    purines = {"A", "G"}
+    pyrimidines = {"C", "T"}
+    transitions = 0
+    transversions = 0
+    for a, b in zip(s1, s2):
+        if a == b:
+            continue
+        if ({a, b} <= purines) or ({a, b} <= pyrimidines):
+            transitions += 1
+        else:
+            transversions += 1
+    if transversions == 0:
+        raise ValueError("No transversions found, so the ratio is undefined.")
+    return transitions / transversions
+
+if __name__ == "__main__":
+    s1, s2 = read_two_strings("tstv")
+    print(f"{transition_transversion_ratio(s1, s2):.6f}")

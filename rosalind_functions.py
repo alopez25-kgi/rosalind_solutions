@@ -45,8 +45,8 @@ def highest_gc_file(filename):
     gc_values = {name: gc_content(seq) for name, seq in sequences.items()}
 
     best = max(gc_values, key=gc_values.get)
-    print(best)
-    print(f"{gc_values[best]:.3f}")
+    return(best)
+    return(f"{gc_values[best]:.3f}")
 #HAMM 
 def point_mut(seq1, seq2):
     return sum(a !=b for a, b in zip(seq1, seq2))
@@ -93,7 +93,7 @@ def read_two_strings(filename):
 
 if __name__ == "__main__":
     s, t = read_two_strings("subs") 
-    print(" ".join(str(loc) for loc in find_locations(s, t)))
+    return(" ".join(str(loc) for loc in find_locations(s, t)))
 
 #PRTM
 def calculate_protein_mass(protein_string):
@@ -101,6 +101,32 @@ def calculate_protein_mass(protein_string):
 
 total_mass = calculate_protein_mass(sample)
 #REVP
+def reverse_complement(seq):
+    comp = {"A": "T", "T": "A", "G": "C", "C": "G"}
+    return "".join(comp[base] for base in reversed(seq))
+
+def read_fasta_sequence(filename):
+    """Join all sequence lines of a FASTA file, skipping the '>' label line."""
+    with open(filename) as f:
+        lines = [line.strip() for line in f if line.strip() and not line.startswith(">")]
+    return "".join(lines).upper()
+
+def find_reverse_palindromes(s, min_len=4, max_len=12):
+    """Return (position, length) pairs for reverse palindromes, with 1-based positions."""
+    results = []
+    for i in range(len(s)):
+        for length in range(min_len, max_len + 1, 2):
+            if i + length > len(s):
+                break
+            sub = s[i:i + length]
+            if sub == reverse_complement(sub):
+                results.append((i + 1, length))
+    return results
+
+if __name__ == "__main__":
+    s = read_fasta_sequence("revp")
+    for pos, length in find_reverse_palindromes(s):
+        return(pos, length)
 
 #TRAN
 

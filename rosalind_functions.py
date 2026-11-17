@@ -161,4 +161,4 @@ def transition_transversion_ratio(s1, s2):
 
 if __name__ == "__main__":
     s1, s2 = read_two_strings("tstv")
-    print(f"{transition_transversion_ratio(s1, s2):.6f}")
+    return(f"{transition_transversion_ratio(s1, s2):.6f}")
